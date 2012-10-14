@@ -19,6 +19,7 @@ border-style: solid;
 border-color: #b0d0e9;
 border-width: 1px;
 border-top-width: 0px;
+width:100%;
 -webkit-border-bottom-left-radius:10px;
 -webkit-border-bottom-right-radius:10px;
 -moz-border-radius-bottomleft:10px;
@@ -30,15 +31,41 @@ border-top-width: 0px;
 	padding: 10px; 
 }
 
-.logo{
-	text-align:center; 
-	float:left;
-	width: 150px;
-	font-size:2em;
-	margin-left:50px;
-	padding:10px;
+.log{
+	width: 80px;
+	border:solid 1px #848388;
+}
+
+#logindiv {
+	text-align:right;
+	float:right;
+	position:relative;
+	bottom:30px;
+	right: 20px;
+}
+
+.find{
+	border:solid 1px #848388;
+}	
+.book{
+	width:100%;
+	background-color:#e8f0f5;
+	border-style: solid;
+	border-color: #b0d0e9;
+	border-width: 1px;
+	padding: 5px;
+	-webkit-border-radius:20px;
+	-moz-border-radius:20px;
+	margin:5px 0;
 }		
-			
+.book_author{
+	
+}
+.book_title{
+	font-size:2em;
+	
+}
+
 .tabs {
 				width:100%;
 				overflow:hidden;
