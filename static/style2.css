@@ -44,9 +44,87 @@ width:100%;
 	bottom:30px;
 	right: 20px;
 }
+.filter{
+	float: right;
+	/*width: 25%;*/
+}
+.add{
+	float: left;
+	/*width: 50%;*/
+
+}
+.books_tab{
+	float:left;
+	width:59%;
+	font-size:0.9em;
+}
+.books_tab_header{
+/*	float:left;
+*/	line-height:2;
+	height:2em;
+	background:#e8f0f5;
+	border:1px solid #b0d0e9;
+	border-bottom:0;
+	padding-left: 20px;
+	
+	-webkit-border-top-left-radius:10px;
+	-webkit-border-top-right-radius:10px;
+	-moz-border-radius-topleft:10px;
+	-moz-border-radius-topright:10px;
+}
+#edit_mode{
+	float:right;
+	text-align: right;
+	position: relative;
+	right: 10px;
+}
+.books_tab_content{
+	clear: left;
+	border:1px solid #b0d0e9;
+	padding:5px;
+	min-height: 50px;
+	
+	-webkit-border-bottom-left-radius:10px;
+	-webkit-border-bottom-right-radius:10px;
+	-moz-border-radius-bottomleft:10px;
+	-moz-border-radius-bottomright:10px;
+}
+.authors_tab{
+	float:left;
+	width:40%;
+	margin-left: 1%;
+	font-size:0.9em;
+}
+.authors_tab_header{
+/*	float:left;
+*/	line-height:2;
+	height:2em;
+	background:#e8f0f5;
+	border:1px solid #b0d0e9;
+	border-bottom:0;
+	padding-left: 20px;
+	
+	-webkit-border-top-left-radius:10px;
+	-webkit-border-top-right-radius:10px;
+	-moz-border-radius-topleft:10px;
+	-moz-border-radius-topright:10px;
+}
+.authors_tab_content{
+	clear: left;
+	border:1px solid #b0d0e9;
+	padding:5px;
+	min-height: 50px;
+	
+	-webkit-border-bottom-left-radius:10px;
+	-webkit-border-bottom-right-radius:10px;
+	-moz-border-radius-bottomleft:10px;
+	-moz-border-radius-bottomright:10px;
+}
 
 .find{
 	border:solid 1px #848388;
+	position: relative;
+	top: -2px;
 }	
 .book{
 	width:100%;

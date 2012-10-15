@@ -20,7 +20,7 @@ class Author(db.Model):
     def __init__(self, name):
         self.name = name
     def __repr__(self):
-        return '<Author %r>' % self.name
+        return '%r' % self.name
 
 class Book(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -37,10 +37,12 @@ class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(80), unique=True)
     password = db.Column(db.String(32))
+    admin = db.Column(db.Boolean)
 
-    def __init__(self, username, password):
+    def __init__(self, username, password, admin = False):
         self.username = username
         self.password = md5(password).hexdigest()
+        self.admin = admin
 
     def __repr__(self):
         return '<User %r>' % self.username
@@ -60,10 +62,23 @@ def login():
     print '!!!'
     return redirect(url_for('index'))
 
+@app.route('/logout')
+def logout():
+    session.pop('username', None)
+    return redirect(url_for('index'))
 
 @app.route('/')
 def index():
-    return render_template('hello.html')
+    if 'username' in session: user = session['username']
+    else: user = None
+    return render_template('hello2.html', user = user)
+
+@app.route('/book-filter')
+def book_filter():
+    b_filter = request.args.get('bfilter', '')
+    books = [book for book in Book.query.all() if b_filter.lower() in book.name.lower()+str(book.authors).lower()]
+    print 'BOOOOKS', books
+    return redirect(url_for('index'))
 
 
 if __name__ == '__main__':

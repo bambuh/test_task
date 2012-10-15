@@ -45,6 +45,14 @@ width:100%;
 	right: 20px;
 }
 
+.books_tab{
+	float:left;
+	width:70%;
+}
+.right_tab{
+	float:left;
+	width: 30%;
+}
 .find{
 	border:solid 1px #848388;
 }	

@@ -16,91 +16,102 @@
 <div id="header">
   <h1>UAPROM Test Task</h1>
 <div id=logindiv>
+{% if user: %}
+    Hello, {{user}}! <a href="/logout">Logout</a>
+{% else:%}
 	<form action="/login" method=POST>
 	Login:<input type="text" id="name" name="username" class=log>
 	Password:<input type="password" id="password" name="password" class=log>
 	<input type="image" id="login" src="/static/images/control_play_blue.png" class=button>
 	</form>
+{%endif%}
 </div>
 </div>
-<dl class=tabs>
-<dt class=selected>About</dt>
-	<dd class style="display:block"><div class=tab-content>About Text</div></dd>
-<dt class>Books</dt>
-	<dd class>
-		<div class=tab-content>
-			<input type="text" id="book_find_text" class=find>
-			<input type="image" id="book_find" src="/static/images/find.png" class=button>
-			<input type="image" id="book_add" src="/static/images/add.png" class=button>
-			<br>
-			<div>
-				<table class=book>
-					<tr>	<td>
-							<span class=book_author>Author1, Author2</span>
-						</td>
-						<td width=40>
-							<input type="image" id="book_edit" src="/static/images/pencil.png" class=button>
-							<input type="image" id="book_del" src="/static/images/cancel.png" class=button>
-						</td>
-					</tr>
-					<tr><td>
-						<span class=book_title>Book1</span>
-					</td></tr>
-				</table>
-				<table class=book>
-					<tr>	<td>
-							<span class=book_author>Author1, Author2</span>
-						</td>
-						<td width=40>
-							<input type="image" id="book_edit" src="/static/images/pencil.png" class=button>
-							<input type="image" id="book_del" src="/static/images/cancel.png" class=button>
-						</td>
-					</tr>
-					<tr><td>
-						<span class=book_title>Book1</span>
-					</td></tr>
-				</table>
-				<table class=book>
-					<tr>	<td>
-							<span class=book_author>Author1, Author2</span>
-						</td>
-						<td width=40>
-							<input type="image" id="book_edit" src="/static/images/pencil.png" class=button>
-							<input type="image" id="book_del" src="/static/images/cancel.png" class=button>
-						</td>
-					</tr>
-					<tr><td>
-						<span class=book_title>Book1</span>
-					</td></tr>
-				</table>
-				<table class=book>
-					<tr>	<td>
-							<span class=book_author>Author1, Author2</span>
-						</td>
-						<td width=40>
-							<input type="image" id="book_edit" src="/static/images/pencil.png" class=button>
-							<input type="image" id="book_del" src="/static/images/cancel.png" class=button>
-						</td>
-					</tr>
-					<tr><td>
-						<span class=book_title>Book1</span>
-					</td></tr>
-				</table>
+<div class="books_tab">
+	<dl class=tabs>
+	<dt class=selected>About</dt>
+		<dd class style="display:block"><div class=tab-content>About Text</div></dd>
+	<dt class>Books</dt>
+		<dd class>
+			<div class=tab-content>
+				<input type="text" id="book_find_text" class=find>
+				<input type="image" id="book_find" src="/static/images/find.png" class=button>
+				<input type="image" id="book_add" src="/static/images/add.png" class=button>
+				<br>
+				<div>
+					<table class=book>
+						<tr>	<td>
+								<span class=book_author>Author1, Author2</span>
+							</td>
+							<td width=40>
+								<input type="image" id="book_edit" src="/static/images/pencil.png" class=button>
+								<input type="image" id="book_del" src="/static/images/cancel.png" class=button>
+							</td>
+						</tr>
+						<tr><td>
+							<span class=book_title>Book1</span>
+						</td></tr>
+					</table>
+					<table class=book>
+						<tr>	<td>
+								<span class=book_author>Author1, Author2</span>
+							</td>
+							<td width=40>
+								<input type="image" id="book_edit" src="/static/images/pencil.png" class=button>
+								<input type="image" id="book_del" src="/static/images/cancel.png" class=button>
+							</td>
+						</tr>
+						<tr><td>
+							<span class=book_title>Book1</span>
+						</td></tr>
+					</table>
+					<table class=book>
+						<tr>	<td>
+								<span class=book_author>Author1, Author2</span>
+							</td>
+							<td width=40>
+								<input type="image" id="book_edit" src="/static/images/pencil.png" class=button>
+								<input type="image" id="book_del" src="/static/images/cancel.png" class=button>
+							</td>
+						</tr>
+						<tr><td>
+							<span class=book_title>Book1</span>
+						</td></tr>
+					</table>
+					<table class=book>
+						<tr>	<td>
+								<span class=book_author>Author1, Author2</span>
+							</td>
+							<td width=40>
+								<input type="image" id="book_edit" src="/static/images/pencil.png" class=button>
+								<input type="image" id="book_del" src="/static/images/cancel.png" class=button>
+							</td>
+						</tr>
+						<tr><td>
+							<span class=book_title>Book1</span>
+						</td></tr>
+					</table>
+				</div>
 			</div>
-		</div>
-	</dd>
-<dt class>Authors</dt>
-	<dd class>
-		<div class=tab-content>
-			<input type="text" id="author_find_text" class=find>
-			<input type="image" id="author_find" src="/static/images/find.png" class=button>
-			<input type="image" id="author_add" src="/static/images/add.png" class=button>
-			<br>
-			Authors Page
-		</div>
-	</dd>
-</dl>
-
+		</dd>
+	<dt class>Authors</dt>
+		<dd class>
+			<div class=tab-content>
+				<input type="text" id="author_find_text" class=find>
+				<input type="image" id="author_find" src="/static/images/find.png" class=button>
+				<input type="image" id="author_add" src="/static/images/add.png" class=button>
+				<br>
+				Authors Page
+			</div>
+		</dd>
+	</dl>
+</div>
+<div class="right_tab">
+	asdkjaldaksdjalsdjalsdkjalk
+	dasd
+	asd
+	asda
+</div>
 
 </div>
 </body>

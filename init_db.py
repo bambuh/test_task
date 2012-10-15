@@ -27,7 +27,7 @@ db.session.add(author5)
 db.session.commit()
 print book1.authors
 
-admin = User('admin', 'admin')
+admin = User('admin', 'admin', True)
 guest = User('guest', 'guest')
 db.session.add(admin)
 db.session.add(guest)
