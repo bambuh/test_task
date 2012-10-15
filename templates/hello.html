@@ -1,12 +1,13 @@
+<!doctype html>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
 "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=windows-1251">
 <title>Uaprom Test Task</title>
-<link href="style.css" rel="stylesheet" type="text/css">
-<script type="text/javascript" src="jquery.js"></script>
-<script type="text/javascript" src="mainjs.js"></script>
+<link href="static/style.css" rel="stylesheet" type="text/css">
+<script type="text/javascript" src="static/jquery.js"></script>
+<script type="text/javascript" src="static/mainjs.js"></script>
 </head>
 
 <body>
@@ -15,10 +16,10 @@
 <div id="header">
   <h1>UAPROM Test Task</h1>
 <div id=logindiv>
-	<form action="login/" method=POST>
-	<input type="text" id="name" class=log>
-	<input type="password" id="password" class=log>
-	<input type="image" id="login" src="images/control_play_blue.png" class=button>
+	<form action="/login" method=POST>
+	Login:<input type="text" id="name" name="username" class=log>
+	Password:<input type="password" id="password" name="password" class=log>
+	<input type="image" id="login" src="/static/images/control_play_blue.png" class=button>
 	</form>
 </div>
 </div>
@@ -29,8 +30,8 @@
 	<dd class>
 		<div class=tab-content>
 			<input type="text" id="book_find_text" class=find>
-			<input type="image" id="book_find" src="images/find.png" class=button>
-			<input type="image" id="book_add" src="images/add.png" class=button>
+			<input type="image" id="book_find" src="/static/images/find.png" class=button>
+			<input type="image" id="book_add" src="/static/images/add.png" class=button>
 			<br>
 			<div>
 				<table class=book>
@@ -38,8 +39,8 @@
 							<span class=book_author>Author1, Author2</span>
 						</td>
 						<td width=40>
-							<input type="image" id="book_edit" src="images/pencil.png" class=button>
-							<input type="image" id="book_del" src="images/cancel.png" class=button>
+							<input type="image" id="book_edit" src="/static/images/pencil.png" class=button>
+							<input type="image" id="book_del" src="/static/images/cancel.png" class=button>
 						</td>
 					</tr>
 					<tr><td>
@@ -51,8 +52,8 @@
 							<span class=book_author>Author1, Author2</span>
 						</td>
 						<td width=40>
-							<input type="image" id="book_edit" src="images/pencil.png" class=button>
-							<input type="image" id="book_del" src="images/cancel.png" class=button>
+							<input type="image" id="book_edit" src="/static/images/pencil.png" class=button>
+							<input type="image" id="book_del" src="/static/images/cancel.png" class=button>
 						</td>
 					</tr>
 					<tr><td>
@@ -64,8 +65,8 @@
 							<span class=book_author>Author1, Author2</span>
 						</td>
 						<td width=40>
-							<input type="image" id="book_edit" src="images/pencil.png" class=button>
-							<input type="image" id="book_del" src="images/cancel.png" class=button>
+							<input type="image" id="book_edit" src="/static/images/pencil.png" class=button>
+							<input type="image" id="book_del" src="/static/images/cancel.png" class=button>
 						</td>
 					</tr>
 					<tr><td>
@@ -77,8 +78,8 @@
 							<span class=book_author>Author1, Author2</span>
 						</td>
 						<td width=40>
-							<input type="image" id="book_edit" src="images/pencil.png" class=button>
-							<input type="image" id="book_del" src="images/cancel.png" class=button>
+							<input type="image" id="book_edit" src="/static/images/pencil.png" class=button>
+							<input type="image" id="book_del" src="/static/images/cancel.png" class=button>
 						</td>
 					</tr>
 					<tr><td>
@@ -92,8 +93,8 @@
 	<dd class>
 		<div class=tab-content>
 			<input type="text" id="author_find_text" class=find>
-			<input type="image" id="author_find" src="images/find.png" class=button>
-			<input type="image" id="author_add" src="images/add.png" class=button>
+			<input type="image" id="author_find" src="/static/images/find.png" class=button>
+			<input type="image" id="author_add" src="/static/images/add.png" class=button>
 			<br>
 			Authors Page
 		</div>
