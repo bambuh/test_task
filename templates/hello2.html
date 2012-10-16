@@ -20,9 +20,13 @@
 		    Hello, {{user}}! <a href="/logout">Logout</a>
 		{% else:%}
 			<form action="/login" method=POST>
-			Login:<input type="text" id="name" name="username" class="find">
-			Password:<input type="password" id="password" name="password" class="find">
-			<input type="image" id="login" src="/static/images/control_play_blue.png" class=button>
+				{{ form.csrf_token }}
+				<label for="username">Login: </label><input type="text" id="username" name="username" class="find">
+				<label for="password">Password: </label><input type="password" id="password" name="password" class="find">
+<!-- 				{{ form.username.label }}: {{ form.username(size=20) }}
+				{{ form.password.label}}: {{ form.password(size=20) }}
+ -->				<input type="image" id="login" src="/static/images/control_play_blue.png" class=button>
+
 			</form>
 		{%endif%}
 	</div>
@@ -44,33 +48,6 @@
 		</div>
 		<br>
 		<div id="books_list"></div>
-<!-- 		<table class=book>
-			<tr>	<td>
-					<span class=book_author>Author1, Author2</span>
-				</td>
-				<td width=40>
-					<input type="image" id="book_edit" src="/static/images/pencil.png" class=button>
-					<input type="image" id="book_del" src="/static/images/cancel.png" class=button>
-				</td>
-			</tr>
-			<tr><td>
-				<span class=book_title>Book1</span>
-			</td></tr>
-		</table>
-		<table class=book>
-			<tr>	<td>
-					<span class=book_author>Author1, Author2</span>
-				</td>
-				<td width=40>
-					<input type="image" id="book_edit" src="/static/images/pencil.png" class=button>
-					<input type="image" id="book_del" src="/static/images/cancel.png" class=button>
-				</td>
-			</tr>
-			<tr><td>
-				<span class=book_title>Book1</span>
-			</td></tr>
-		</table>
- -->
 	</div>
 </div>
 <div class="authors_tab">

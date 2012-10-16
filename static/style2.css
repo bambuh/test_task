@@ -162,8 +162,10 @@ width:100%;
 	top: 10px;
 */}
 .book_title{
-	font-size:2em;
-	
+	font-size:2em;	
+}
+.book_edit{
+	font-size:2em;	
 }
 .button:hover {
 	background-color:#bfdff4;

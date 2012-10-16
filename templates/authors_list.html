@@ -6,24 +6,66 @@ $(function() {
 	        helper : 'clone',
 	        opacity : 0.3
 	});
+    $('.author_edit_btn').click(function(){
+    	$('.author_save_btn').hide();
+    	$('.author_edit_btn').show();
+    	$('.author_edit').hide();
+    	$('.author_name').show();
+    	$(this).hide();
+    	num = $(this).attr("id").replace("author_edit_btn_", "");
+    	$('#author_save_btn_'+num).show();
+    	$('#author_edit_'+num).show();
+    	$('#author_name_'+num).hide();
+    });
+    $('.author_save_btn').click(function(){
+    	$(this).hide();
+    	num = $(this).attr("id").replace("author_save_btn_", "");
+    	$('#author_edit_btn_'+num).show();
+    	$('#author_edit_'+num).hide();
+    	$.post('/edit-author', {
+    		'csrf_token':$('#csrf_token').attr('value'), 
+    		'num':num,
+    		'new_value':$('#author_edit_'+num).attr('value')}, 
+    		function(text){
+    			$('#author_name_'+num).text(text);
+    			$('#author_'+num).text(text);
+    		}, 'text');
+    	$('#author_name_'+num).show();
+    });
+    $('.author_del_btn').click(function(){
+    	num = $(this).attr('id').replace('author_del_btn_', '');
+    	$.post('/del-author', {
+    		'csrf_token':$('#csrf_token').attr('value'), 
+    		'num':num}, 
+    		function(text){
+    			if (text == "True"){
+    				$('#author_tab_'+num).animate({ opacity: "hide"}, "slow").end().remove();
+    			}
+    		}, 'text');
+    });
 });
 </script>
 </head>
 <body>
 {% for author in authors %}
-	<table>
+	<table id='author_tab_{{ author.id }}'>
 		<tr>
 			<td>
 				<span class="book_author" id="author_{{ author.id }}" style="clear: right;">					
-					<span>{{ author.name }}</span>
-					<input type="text" id="author_edit_{{ author.id }}" class="author_edit" style="display:none">
+					<span id="author_name_{{ author.id }}" class="author_name">{{ author.name }}</span>
+					{{ edit_form.csrf_token}}
+					<input type="text" id="author_edit_{{ author.id }}" class="author_edit" style="display:none" value="{{author.name}}">
+					<input type="image" id="author_save_btn_{{ author.id }}" src="/static/images/disk.png" class="author_save_btn" style="display:none">
 				</span>
 			</td>
 			<td>
 				<div class = "edit_icons">
-					<input type="image" id="author_save_btn_{{ author.id }}" src="/static/images/disk.png" class="author_save_btn" style="display:none">
 					<input type="image" id="author_edit_btn_{{ author.id }}" src="/static/images/pencil.png" class="author_edit_btn">
-					<input type="image" id="author_del_btn_{{ author.id }}" src="/static/images/cancel.png" class="author_del_btn">
+					<!-- <form action="#" method="POST"> -->
+						{{ del_form.csrf_token }}
+						<input type="hidden" name="num" id="num" value="{{ author.id }}">
+						<input type="image" id="author_del_btn_{{ author.id }}" src="/static/images/cancel.png" class="author_del_btn">
+					<!-- </form> -->
 				</div>
 			</td>
 	</table>
