@@ -1,0 +1,31 @@
+<head>
+<script type="text/javascript">
+$(function() {
+	$('.book_author').draggable({
+			handle: "span",
+	        helper : 'clone',
+	        opacity : 0.3
+	});
+});
+</script>
+</head>
+<body>
+{% for author in authors %}
+	<table>
+		<tr>
+			<td>
+				<span class="book_author" id="author_{{ author.id }}" style="clear: right;">					
+					<span>{{ author.name }}</span>
+					<input type="text" id="author_edit_{{ author.id }}" class="author_edit" style="display:none">
+				</span>
+			</td>
+			<td>
+				<div class = "edit_icons">
+					<input type="image" id="author_save_btn_{{ author.id }}" src="/static/images/disk.png" class="author_save_btn" style="display:none">
+					<input type="image" id="author_edit_btn_{{ author.id }}" src="/static/images/pencil.png" class="author_edit_btn">
+					<input type="image" id="author_del_btn_{{ author.id }}" src="/static/images/cancel.png" class="author_del_btn">
+				</div>
+			</td>
+	</table>
+{% endfor %}
+</body>

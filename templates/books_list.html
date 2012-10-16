@@ -1,0 +1,34 @@
+<head>
+<script type="text/javascript">
+$(function() {
+	$('.book').droppable({
+	    tolerance : 'fit',
+        accept : '.book_author',
+        drop : function(event, ui) {
+        		alert(ui.draggable.attr("id"));
+                // $(this).append(ui.draggable);
+}	});
+});
+</script>
+</head>
+<body>
+{% for book in books %}
+	<div class="book" id="book_id_{{ book.id }}">					
+		<div>
+			{% for author in book.authors %}
+				<span class="book_author_s">
+					{{author.name}}
+				</span>
+				{% if not loop.last %}, {% endif %}
+			{% endfor %}
+		</div>
+		<div>
+			<span class="book_title">{{book.name}}</span>
+			<input type="text" id="book_edit_{{ book.id }}" class="book_edit" style="display:none">
+			<input type="image" id="book_save_btn_{{ book.id }}" src="/static/images/disk.png" class="book_save_btn" style="display:none">
+			<input type="image" id="book_edit_btn_{{ book.id }}" src="/static/images/pencil.png" class="book_edit_btn">
+			<input type="image" id="book_del_btn_{{ book.id }}" src="/static/images/cancel.png" class="book_del_btn">
+		</div>
+	</div>
+{% endfor %}
+</body>

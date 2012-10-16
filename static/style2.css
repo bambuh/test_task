@@ -55,7 +55,7 @@ width:100%;
 }
 .books_tab{
 	float:left;
-	width:59%;
+	width:100%;
 	font-size:0.9em;
 }
 .books_tab_header{
@@ -94,6 +94,8 @@ width:100%;
 	width:40%;
 	margin-left: 1%;
 	font-size:0.9em;
+	display: none;
+	opacity: 0;
 }
 .authors_tab_header{
 /*	float:left;
@@ -127,8 +129,8 @@ width:100%;
 	top: -2px;
 }	
 .book{
-	width:100%;
-	background-color:#e8f0f5;
+/*	width:95%;
+*/	background-color:#e8f0f5;
 	border-style: solid;
 	border-color: #b0d0e9;
 	border-width: 1px;
@@ -138,8 +140,27 @@ width:100%;
 	margin:5px 0;
 }		
 .book_author{
-	
+	background-color:#e8f0f5;
+	border-style: solid;
+	border-color: #b0d0e9;
+	border-width: 1px;
+	padding: 5px;
+	-webkit-border-radius:7px;
+	-moz-border-radius:7px;
+	margin:5px 0;
+	/*width: 50%;*/
+	text-align: center;
+/*	float: left;
+	clear: left;
+	position: relative;
+	left: 25%;*/
 }
+.edit_icons{
+/*	float: left;
+	position: relative;
+	left: 25%;
+	top: 10px;
+*/}
 .book_title{
 	font-size:2em;
 	
@@ -147,66 +168,3 @@ width:100%;
 .button:hover {
 	background-color:#bfdff4;
 }
-.tabs {
-				width:100%;
-				overflow:hidden;
-				font-size:0.9em;
-				margin:1em 0;
-				zoom:1;
-				padding:1px;
-				position:relative;
-			}
-			
-			.tabs dt {
-				float:left;
-				line-height:2;
-				height:2em;
-				background:#e8f0f5;
-				border:1px solid #e8f0f5;
-				border-bottom:0;
-				padding:0 1em;
-				position:relative;
-				left:35px;
-				margin-right:1px;
-				cursor:pointer;
-				
-				-webkit-border-top-left-radius:10px;
-				-webkit-border-top-right-radius:10px;
-				-moz-border-radius-topleft:10px;
-				-moz-border-radius-topright:10px;
-			}
-			
-			.tabs dt:hover {
-				background-color:#bfdff4;
-			}
-			
-			.tabs dt.selected {
-				border-color:#b0d0e9;
-				background:#fff;
-				z-index:3;
-				cursor:auto;
-			}
-			
-			.tabs dd {
-				background:#fff;
-				display:none;
-				float:right;
-				width:100%;
-				
-				margin:2em 0 0 -100%;
-				position:relative;
-				z-index:2;
-			}
-			
-			.tabs dd.selected {
-				display:block;
-			}
-			
-			.tabs .tab-content {
-				border:1px solid #b0d0e9;
-				padding:20px;
-				
-				
-				-webkit-border-radius:10px;
-				-moz-border-radius:10px;
-			}

@@ -1,4 +1,3 @@
-<!doctype html>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
 "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -7,6 +6,7 @@
 <title>Uaprom Test Task</title>
 <link href="static/style2.css" rel="stylesheet" type="text/css">
 <script type="text/javascript" src="static/jquery.js"></script>
+<script type="text/javascript" src="static/jquery-ui-1.9.0.custom.js"></script>
 <script type="text/javascript" src="static/mainjs.js"></script>
 </head>
 
@@ -14,35 +14,37 @@
 <div id="container">
 
 <div id="header">
-  <h1>UAPROM Test Task</h1>
-<div id=logindiv>
-{% if user: %}
-    Hello, {{user}}! <a href="/logout">Logout</a>
-{% else:%}
-	<form action="/login" method=POST>
-	Login:<input type="text" id="name" name="username" class="find">
-	Password:<input type="password" id="password" name="password" class="find">
-	<input type="image" id="login" src="/static/images/control_play_blue.png" class=button>
-	</form>
-{%endif%}
+	<h1>UAPROM Test Task</h1>
+	<div id=logindiv>
+		{% if user: %}
+		    Hello, {{user}}! <a href="/logout">Logout</a>
+		{% else:%}
+			<form action="/login" method=POST>
+			Login:<input type="text" id="name" name="username" class="find">
+			Password:<input type="password" id="password" name="password" class="find">
+			<input type="image" id="login" src="/static/images/control_play_blue.png" class=button>
+			</form>
+		{%endif%}
+	</div>
 </div>
-</div>
+<br>
 <div class="books_tab">
 	<div class="books_tab_header">
 		Books
-		<div id="edit_mode"><a href="#">Switch to edit mode</a></div>
+		<div id="edit_mode"><a href="#" id='editmode'>Switch to edit mode</a><a href="#" id='viewmode' style="display:none;">Switch to view mode</a></div>
 	</div>
 	<div class="books_tab_content">
 		<div class="filter">
 			<input type="text" id="book_find_text" class=find>
 			<input type="image" id="book_find" src="/static/images/find.png" class=button>
 		</div>
-		<div class="add">
+		<div class="add" id='book_add_div' style="display:none">
 			<input type="text" id="book_add_text" class=find style="width: 200px">
 			<input type="image" id="book_add" src="/static/images/add.png" class=button>
 		</div>
 		<br>
-		<table class=book>
+		<div id="books_list"></div>
+<!-- 		<table class=book>
 			<tr>	<td>
 					<span class=book_author>Author1, Author2</span>
 				</td>
@@ -68,7 +70,7 @@
 				<span class=book_title>Book1</span>
 			</td></tr>
 		</table>
-
+ -->
 	</div>
 </div>
 <div class="authors_tab">
@@ -84,6 +86,7 @@
 			<input type="text" id="author_add_text" class=find style="width: 150px">
 			<input type="image" id="author_add" src="/static/images/add.png" class=button>
 		</div>
+		<div id="authors_list" style="clear:right"></div>
 	</div>
 </div>
 
