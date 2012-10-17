@@ -4,7 +4,7 @@ $(function() {
 	$('.book_author').draggable({
 			handle: "span",
 	        helper : 'clone',
-	        opacity : 0.3
+	        opacity : 0.6
 	});
     $('.author_edit_btn').click(function(){
     	$('.author_save_btn').hide();
@@ -26,10 +26,12 @@ $(function() {
     		'csrf_token':$('#csrf_token').attr('value'), 
     		'num':num,
     		'new_value':$('#author_edit_'+num).attr('value')}, 
-    		function(text){
-    			$('#author_name_'+num).text(text);
-    			$('#author_'+num).text(text);
-    		}, 'text');
+    		function(json){
+                if (json.success){
+        			$('#author_name_'+num).text(json.new_name);
+        			$('#author_'+num).text(json.new_name);
+                }
+    		}, 'json');
     	$('#author_name_'+num).show();
     });
     $('.author_del_btn').click(function(){
@@ -37,19 +39,19 @@ $(function() {
     	$.post('/del-author', {
     		'csrf_token':$('#csrf_token').attr('value'), 
     		'num':num}, 
-    		function(text){
-    			if (text == "True"){
+    		function(json){
+    			if (json.success){
     				$('#author_tab_'+num).animate({ opacity: "hide"}, "slow").end().remove();
     				$('#author_'+num).animate({ opacity: "hide"}, "slow").end().remove();
     			}
-    		}, 'text');
+    		}, 'json');
     });
 });
 </script>
 </head>
 <body>
 {% for author in authors %}
-	<table id='author_tab_{{ author.id }}'>
+	<table id='author_tab_{{ author.id }}' class='author_tab'>
 		<tr>
 			<td>
 				<span class="book_author" id="author_{{ author.id }}" style="clear: right;">					

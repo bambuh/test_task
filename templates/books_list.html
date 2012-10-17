@@ -11,9 +11,11 @@
 		    		'csrf_token':$('#csrf_token').attr('value'), 
 		    		'author_id':ui.draggable.attr("id").replace("author_", ""),
 		    		'book_id': num}, 
-		    		function(html){
-		    			$('#book_authors_'+num).html(html);
-		    		}, 'html');
+		    		function(json){
+		    			if (json.success){
+			    			$('#book_authors_'+num).html(json.html);
+			    		}
+		    		}, 'json');
 	            }
 	    });
 	    $('.book_edit_btn').click(function(){
@@ -36,9 +38,11 @@
 	    		'csrf_token':$('#csrf_token').attr('value'), 
 	    		'num':num,
 	    		'new_value':$('#book_edit_'+num).attr('value')}, 
-	    		function(text){
-	    			$('#book_title_'+num).text(text);
-	    		}, 'text');
+	    		function(json){
+	    			if (json.success){
+		    			$('#book_title_'+num).text(json.new_title);
+		    		}
+	    		}, 'json');
 	    	$('#book_title_'+num).show();
 	    });
 	    $('.book_del_btn').click(function(){
@@ -46,11 +50,11 @@
 	    	$.post('/del-book', {
 	    		'csrf_token':$('#csrf_token').attr('value'), 
 	    		'num':num}, 
-	    		function(text){
-	    			if (text == "True"){
+	    		function(json){
+	    			if (json.success){
 	    				$('#book_id_'+num).animate({ opacity: "hide"}, "slow").end().remove();
 	    			}
-	    		}, 'text');
+	    		}, 'json');
 	    });
 	});
 	</script>

@@ -24,7 +24,7 @@ $(document).ready(function(){
     	$(this).hide();
     	$('#book_add_div').show();
     	$('#viewmode').show();
-        $('.books_tab').animate({ width: "59%" }, "slow");
+        $('.books_tab').animate({ width: "65%" }, "slow");
         $('.authors_tab').show().animate({ opacity: "0"}, "slow").animate({ opacity: "1"}, "slow");
         $('.book_author_del_btn, .book_edit_btn, .book_del_btn').show();
         $('#author_find').trigger('click')

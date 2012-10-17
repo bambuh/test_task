@@ -1,7 +1,8 @@
 ﻿from flask import *
 from flask.ext.sqlalchemy import SQLAlchemy
-from flask.ext.wtf import Form, TextField, Required, PasswordField, DecimalField, HiddenField, Length
+from forms import *
 from md5 import md5
+import json
 
 
 app = Flask(__name__)
@@ -12,25 +13,6 @@ db = SQLAlchemy(app)
 library = db.Table('library',
     db.Column('author_id', db.Integer, db.ForeignKey('author.id')),
     db.Column('book_id', db.Integer, db.ForeignKey('book.id')))
-
-class LoginForm(Form):
-    username = TextField('Login', validators=[Required()])
-    password = PasswordField('Password', validators=[Required()])
-
-class DelForm(Form):
-    num = HiddenField('id', validators=[Required()])
-
-class EditForm(Form):
-    num = HiddenField('id', validators=[Required()])
-    new_value = TextField('new_value', validators=[Required(), Length(min=2, max=30, message='Invalid length (allowed 2-20 symbols)')])
-
-class AddForm(Form):
-    new = TextField('new_value', validators=[Required(), Length(min=2, max=30, message='Invalid length (allowed 2-20 symbols)')])
-
-class BookAuthorForm(Form):
-    author_id = HiddenField('author_id', validators=[Required()])
-    book_id = HiddenField('book_id', validators=[Required()])
-
 
 class Author(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -94,19 +76,19 @@ def del_author():
     if request.method == 'POST' and del_form.validate():
         db.session.delete(Author.query.get(del_form.num.data))
         db.session.commit()
-        return 'True'
+        return json.dumps({'success':True})
     else:
-        return 'False'
+        return json.dumps({'success':False})
 
 @app.route('/edit-author', methods=['GET', 'POST'])
 def edit_author():
-    edit_form = EditForm()
+    edit_form = AuthorForm()
     if request.method == 'POST' and edit_form.validate():
         Author.query.filter_by(id = edit_form.num.data).first().name = edit_form.new_value.data
         db.session.commit()
-        return Author.query.filter_by(id = edit_form.num.data).first().name
+        return json.dumps({'success':True, 'new_name':Author.query.filter_by(id = edit_form.num.data).first().name})
     else:
-        return 'False'
+        return json.dumps({'success':False})
 
 @app.route('/del-book', methods=['GET', 'POST'])
 def del_book():
@@ -114,19 +96,19 @@ def del_book():
     if request.method == 'POST' and del_form.validate():
         db.session.delete(Book.query.get(del_form.num.data))
         db.session.commit()
-        return 'True'
+        return json.dumps({'success':True})
     else:
-        return 'False'
+        return json.dumps({'success':False})
 
 @app.route('/edit-book', methods=['GET', 'POST'])
 def edit_book():
-    edit_form = EditForm()
+    edit_form = BookForm()
     if request.method == 'POST' and edit_form.validate():
         Book.query.filter_by(id = edit_form.num.data).first().name = edit_form.new_value.data
         db.session.commit()
-        return Book.query.filter_by(id = edit_form.num.data).first().name
+        return json.dumps({'success':True, 'new_title':Book.query.filter_by(id = edit_form.num.data).first().name})
     else:
-        return 'False'
+        return json.dumps({'success':False})
 @app.route('/del-book-author', methods=['GET', 'POST'])
 def del_book_author():
     form = BookAuthorForm()
@@ -136,31 +118,31 @@ def del_book_author():
         if author in book.authors:
             del book.authors[book.authors.index(author)]
         db.session.commit()
-        return render_template('book_authors.html', user = user(session), book = Book.query.get(form.book_id.data))
+        return json.dumps({'success':True, 'html':render_template('book_authors.html', user = user(session), book = Book.query.get(form.book_id.data))})
     else:
-        return 'False'
+        return json.dumps({'success':False})
 
 @app.route('/add-book', methods=['GET', 'POST'])
 def add_book():
-    form = AddForm()
+    form = AddBookForm()
     if request.method == 'POST' and form.validate():
         new_book = Book(form.new.data)
         db.session.add(new_book)
         db.session.commit()
-        return 'True'
+        return json.dumps({'success':True})
     else:
-        return 'False'
+        return json.dumps({'success':False})
 
 @app.route('/add-author', methods=['GET', 'POST'])
 def add_author():
-    form = AddForm()
+    form = AddAuthorForm()
     if request.method == 'POST' and form.validate():
         new_author = Author(form.new.data)
         db.session.add(new_author)
         db.session.commit()
-        return 'True'
+        return json.dumps({'success':True})
     else:
-        return 'False'
+        return json.dumps({'success':False})
 
 @app.route('/add-book-author', methods=['GET', 'POST'])
 def add_book_author():
@@ -170,22 +152,25 @@ def add_book_author():
         add_author = Author.query.get(form.author_id.data)
         book.authors.append(add_author)
         db.session.commit()
-        return render_template('book_authors.html', user = user(session), book = Book.query.get(form.book_id.data))
+        return json.dumps({'success':True, 'html':render_template('book_authors.html', user = user(session), book = Book.query.get(form.book_id.data))})
     else:
-        return 'False'
+        return json.dumps({'success':False})
 
 
 @app.route('/book-filter')
 def book_filter():
     del_form = DelForm()
     b_filter = request.args.get('bfilter', '')
-    books = [book for book in Book.query.order_by(Book.id.desc()).all() if b_filter.lower() in book.name.lower()+str(book.authors).lower()]
+    books = []
+    for book in Book.query.order_by(Book.id.desc()).all(): 
+        if b_filter.lower() in book.name.lower() or b_filter.lower() in ', '.join([author.name.lower() for author in book.authors]):
+            books.append(book)
     return render_template('books_list.html', books = books, user = user(session), del_form=del_form)
 
 @app.route('/author-filter')
 def author_filter():
     del_form = DelForm()
-    edit_form = EditForm()
+    edit_form = AuthorForm()
     a_filter = request.args.get('afilter', '')
     authors = [author for author in Author.query.order_by(Author.id.desc()).all() if a_filter.lower() in author.name.lower()]
     return render_template('authors_list.html', authors = authors, user = user(session), del_form=del_form, edit_form=edit_form)

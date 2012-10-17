@@ -4,7 +4,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=windows-1251">
 <title>Uaprom Test Task</title>
-<link href="static/style2.css" rel="stylesheet" type="text/css">
+<link href="static/style.css" rel="stylesheet" type="text/css">
 <script type="text/javascript" src="static/jquery.js"></script>
 {% if user.admin %}
 	<script type="text/javascript" src="static/jquery-ui-1.9.0.custom.js"></script>
@@ -17,21 +17,33 @@
 	    	$.post('/add-book', {
 	    		'csrf_token':$('#csrf_token').attr('value'), 
 	    		'new':$('#book_add_text').attr('value')}, 
-	    		function(text){
-	    			if (text == "True"){
+	    		function(json){
+	    			if (json.success){
 	    				$('#book_find').trigger('click');
+	    				$('#book_add_text').attr('value', '')
 	    			}
-	    		}, 'text');
+	    		}, 'json');
 	    });
 	    $('#author_add').click(function(){
 	    	$.post('/add-author', {
 	    		'csrf_token':$('#csrf_token').attr('value'), 
 	    		'new':$('#author_add_text').attr('value')}, 
-	    		function(text){
-	    			if (text == "True"){
+	    		function(json){
+	    			if (json.success){
 	    				$('#author_find').trigger('click');
+	    				$('#author_add_text').attr('value', '')
 	    			}
-	    		}, 'text');
+	    		}, 'json');
+	    });
+	    $('#book_add_text').keypress(function(e){
+	    	if (e.which == 13){
+	    		$('#book_add').trigger('click');
+	    	}
+	    });
+	    $('#author_add_text').keypress(function(e){
+	    	if (e.which == 13){
+	    		$('#author_add').trigger('click');
+	    	}
 	    });
 	});
 	</script>
@@ -59,7 +71,7 @@
 <br>
 <div class="books_tab">
 	<div class="books_tab_header">
-		Books
+		<b>Books</b>
 		{% if user.admin %}
 			<div id="edit_mode">
 				<a href="#" id='editmode'>Switch to edit mode</a><a href="#" id='viewmode' style="display:none;">Switch to view mode</a>

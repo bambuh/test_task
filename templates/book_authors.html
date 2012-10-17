@@ -7,9 +7,11 @@
 	    		'csrf_token':$('#csrf_token').attr('value'), 
 	    		'author_id':$(this).attr('id').replace("book_author_del_btn_", ""),
 	    		'book_id': num}, 
-	    		function(html){
-	    			$('#book_authors_'+num).html(html);
-	    		}, 'html');
+	    		function(json){
+	    			if (json.success){
+		    			$('#book_authors_'+num).html(json.html);
+		    		}
+	    		}, 'json');
 	    });
 	</script>
 	</head>

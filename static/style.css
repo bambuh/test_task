@@ -15,9 +15,9 @@ margin:0 auto;
 text-align:left;  
 }
 #header{
-background-color:#e8f0f5;
+background-color:#c8dbe7;
 border-style: solid;
-border-color: #b0d0e9;
+border-color: #6fa5d4;
 border-width: 1px;
 border-top-width: 0px;
 width:100%;
@@ -44,99 +44,120 @@ width:100%;
 	bottom:30px;
 	right: 20px;
 }
+.filter{
+	float: right;
+}
+.add{
+	float: left;
 
+}
 .books_tab{
 	float:left;
-	width:70%;
+	width:100%;
+	font-size:0.9em;
 }
-.right_tab{
+.books_tab_header{
+	line-height:2;
+	height:2em;
+	background:#c8dbe7;
+	border:1px solid #6fa5d4;
+	border-bottom:0;
+	padding-left: 20px;
+	
+	-webkit-border-top-left-radius:10px;
+	-webkit-border-top-right-radius:10px;
+	-moz-border-radius-topleft:10px;
+	-moz-border-radius-topright:10px;
+}
+#edit_mode{
+	float:right;
+	text-align: right;
+	position: relative;
+	right: 10px;
+}
+.books_tab_content{
+	clear: left;
+	border:1px solid #6fa5d4;
+	padding:5px;
+	min-height: 50px;
+	
+	-webkit-border-bottom-left-radius:10px;
+	-webkit-border-bottom-right-radius:10px;
+	-moz-border-radius-bottomleft:10px;
+	-moz-border-radius-bottomright:10px;
+}
+.authors_tab{
 	float:left;
-	width: 30%;
+	width:33%;
+	margin-left: 1%;
+	font-size:0.9em;
+	display: none;
+	opacity: 0;
 }
+.authors_tab_header{
+	line-height:2;
+	height:2em;
+	background:#c8dbe7;
+	border:1px solid #6fa5d4;
+	border-bottom:0;
+	padding-left: 20px;
+	
+	-webkit-border-top-left-radius:10px;
+	-webkit-border-top-right-radius:10px;
+	-moz-border-radius-topleft:10px;
+	-moz-border-radius-topright:10px;
+}
+.authors_tab_content{
+	clear: left;
+	border:1px solid #6fa5d4;
+	padding:5px;
+	min-height: 50px;
+	
+	-webkit-border-bottom-left-radius:10px;
+	-webkit-border-bottom-right-radius:10px;
+	-moz-border-radius-bottomleft:10px;
+	-moz-border-radius-bottomright:10px;
+}
+
 .find{
 	border:solid 1px #848388;
+	position: relative;
+	top: -2px;
 }	
 .book{
-	width:100%;
-	background-color:#e8f0f5;
+	background-color:#d7ebc8;
 	border-style: solid;
-	border-color: #b0d0e9;
+	border-color: #95e078;
 	border-width: 1px;
-	padding: 5px;
+	padding: 10px;
 	-webkit-border-radius:20px;
 	-moz-border-radius:20px;
 	margin:5px 0;
 }		
 .book_author{
-	
+	background-color:#d7ebc8;
+	border-style: solid;
+	border-color: #95e078;
+	border-width: 1px;
+	padding: 5px;
+	-webkit-border-radius:7px;
+	-moz-border-radius:7px;
+	margin:5px 0;
+	text-align: center;
+	cursor: move;
+}
+.edit_icons{
 }
 .book_title{
-	font-size:2em;
-	
+	font-size:2em;	
+	color: #190b51;
+}
+.book_edit{
+	font-size:2em;	
+}
+.author_tab{
+	margin-top: 5px;
 }
 .button:hover {
 	background-color:#bfdff4;
 }
-.tabs {
-				width:100%;
-				overflow:hidden;
-				font-size:0.9em;
-				margin:1em 0;
-				zoom:1;
-				padding:1px;
-				position:relative;
-			}
-			
-			.tabs dt {
-				float:left;
-				line-height:2;
-				height:2em;
-				background:#e8f0f5;
-				border:1px solid #e8f0f5;
-				border-bottom:0;
-				padding:0 1em;
-				position:relative;
-				left:35px;
-				margin-right:1px;
-				cursor:pointer;
-				
-				-webkit-border-top-left-radius:10px;
-				-webkit-border-top-right-radius:10px;
-				-moz-border-radius-topleft:10px;
-				-moz-border-radius-topright:10px;
-			}
-			
-			.tabs dt:hover {
-				background-color:#bfdff4;
-			}
-			
-			.tabs dt.selected {
-				border-color:#b0d0e9;
-				background:#fff;
-				z-index:3;
-				cursor:auto;
-			}
-			
-			.tabs dd {
-				background:#fff;
-				display:none;
-				float:right;
-				width:100%;
-				
-				margin:2em 0 0 -100%;
-				position:relative;
-				z-index:2;
-			}
-			
-			.tabs dd.selected {
-				display:block;
-			}
-			
-			.tabs .tab-content {
-				border:1px solid #b0d0e9;
-				padding:20px;
-				
-				
-				-webkit-border-radius:10px;
-				-moz-border-radius:10px;
-			}
