@@ -1,81 +1,77 @@
-<head>
-<script type="text/javascript">
-$(function() {
-	$('.book').droppable({
-	    tolerance : 'fit',
-        accept : '.book_author',
-        drop : function(event, ui) {
-        	num = $(this).attr("id").replace("book_id_", "");
-	    	$.post('/add_book_author', {
+{% if user.admin %}
+	<head>
+	<script type="text/javascript">
+	$(function() {
+		$('.book').droppable({
+		    tolerance : 'fit',
+	        accept : '.book_author',
+	        drop : function(event, ui) {
+	        	num = $(this).attr("id").replace("book_id_", "");
+		    	$.post('/add-book-author', {
+		    		'csrf_token':$('#csrf_token').attr('value'), 
+		    		'author_id':ui.draggable.attr("id").replace("author_", ""),
+		    		'book_id': num}, 
+		    		function(html){
+		    			$('#book_authors_'+num).html(html);
+		    		}, 'html');
+	            }
+	    });
+	    $('.book_edit_btn').click(function(){
+	    	$('.book_save_btn').hide();
+	    	$('.book_edit_btn').show();
+	    	$('.book_edit').hide();
+	    	$('.book_title').show();
+	    	$(this).hide();
+	    	num = $(this).attr("id").replace("book_edit_btn_", "");
+	    	$('#book_save_btn_'+num).show();
+	    	$('#book_edit_'+num).show();
+	    	$('#book_title_'+num).hide();
+	    });
+	    $('.book_save_btn').click(function(){
+	    	$(this).hide();
+	    	num = $(this).attr("id").replace("book_save_btn_", "");
+	    	$('#book_edit_btn_'+num).show();
+	    	$('#book_edit_'+num).hide();
+	    	$.post('/edit-book', {
 	    		'csrf_token':$('#csrf_token').attr('value'), 
-	    		'author_id':ui.draggable.attr("id").replace("author_", ""),
-	    		'book_id': num}, 
-	    		function(html){
-	    			$('#book_authors'+num).html(html);
-	    		}, 'html');
-        		// alert(ui.draggable.attr("id"));
-                // $(this).append(ui.draggable);
-            }
-    });
-    $('.book_edit_btn').click(function(){
-    	$('.book_save_btn').hide();
-    	$('.book_edit_btn').show();
-    	$('.book_edit').hide();
-    	$('.book_title').show();
-    	$(this).hide();
-    	num = $(this).attr("id").replace("book_edit_btn_", "");
-    	$('#book_save_btn_'+num).show();
-    	$('#book_edit_'+num).show();
-    	$('#book_title_'+num).hide();
-    });
-    $('.book_save_btn').click(function(){
-    	$(this).hide();
-    	num = $(this).attr("id").replace("book_save_btn_", "");
-    	$('#book_edit_btn_'+num).show();
-    	$('#book_edit_'+num).hide();
-    	$.post('/edit-book', {
-    		'csrf_token':$('#csrf_token').attr('value'), 
-    		'num':num,
-    		'new_value':$('#book_edit_'+num).attr('value')}, 
-    		function(text){
-    			$('#book_title_'+num).text(text);
-    		}, 'text');
-    	$('#book_title_'+num).show();
-    });
-    $('.book_del_btn').click(function(){
-    	num = $(this).attr('id').replace('book_del_btn_', '');
-    	$.post('/del-book', {
-    		'csrf_token':$('#csrf_token').attr('value'), 
-    		'num':num}, 
-    		function(text){
-    			if (text == "True"){
-    				$('#book_id_'+num).animate({ opacity: "hide"}, "slow").end().remove();
-    			}
-    		}, 'text');
-    });
-});
-</script>
-</head>
+	    		'num':num,
+	    		'new_value':$('#book_edit_'+num).attr('value')}, 
+	    		function(text){
+	    			$('#book_title_'+num).text(text);
+	    		}, 'text');
+	    	$('#book_title_'+num).show();
+	    });
+	    $('.book_del_btn').click(function(){
+	    	num = $(this).attr('id').replace('book_del_btn_', '');
+	    	$.post('/del-book', {
+	    		'csrf_token':$('#csrf_token').attr('value'), 
+	    		'num':num}, 
+	    		function(text){
+	    			if (text == "True"){
+	    				$('#book_id_'+num).animate({ opacity: "hide"}, "slow").end().remove();
+	    			}
+	    		}, 'text');
+	    });
+	});
+	</script>
+	</head>
+{% endif %}
 <body>
 {% for book in books %}
 	<div class="book" id="book_id_{{ book.id }}">					
-		<div id = "book_authors_{{ book.id }}">
-			{% for author in book.authors %}
-				<span class="book_author_s" id="author_{{ author.id }}">
-					{{author.name}}
-				</span>
-				<input type="image" id="book_author_del_btn_{{ book.id }}" src="/static/images/cancel.png" class="book_author_del_btn">
-				{% if not loop.last %}, {% endif %}
-			{% endfor %}
+		<div id = "book_authors_{{ book.id }}" class="book_authors">
+			{% include 'book_authors.html' %}
 		</div>
 		<div>
 			<span class="book_title" id="book_title_{{ book.id }}">{{book.name}}</span>
-			<input type="text" id="book_edit_{{ book.id }}" class="book_edit" style="display:none" value="{{book.name}}">
-			<input type="image" id="book_save_btn_{{ book.id }}" src="/static/images/disk.png" class="book_save_btn" style="display:none">
-			{{ del_form.csrf_token }}
-			<input type="hidden" name="num" id="num" value="{{ book.id }}">
-			<input type="image" id="book_edit_btn_{{ book.id }}" src="/static/images/pencil.png" class="book_edit_btn">
-			<input type="image" id="book_del_btn_{{ book.id }}" src="/static/images/cancel.png" class="book_del_btn">
+			{% if user.admin %}
+				<input type="text" id="book_edit_{{ book.id }}" class="book_edit" style="display:none" value="{{book.name}}">
+				<input type="image" id="book_save_btn_{{ book.id }}" src="/static/images/disk.png" class="book_save_btn" style="display:none">
+				{{ del_form.csrf_token }}
+				<input type="hidden" name="num" id="num" value="{{ book.id }}">
+				<input type="image" id="book_edit_btn_{{ book.id }}" src="/static/images/pencil.png" class="book_edit_btn">
+				<input type="image" id="book_del_btn_{{ book.id }}" src="/static/images/cancel.png" class="book_del_btn">
+			{% endif %}
 		</div>
 	</div>
 {% endfor %}

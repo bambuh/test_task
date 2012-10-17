@@ -40,6 +40,7 @@ $(function() {
     		function(text){
     			if (text == "True"){
     				$('#author_tab_'+num).animate({ opacity: "hide"}, "slow").end().remove();
+    				$('#author_'+num).animate({ opacity: "hide"}, "slow").end().remove();
     			}
     		}, 'text');
     });
@@ -61,11 +62,9 @@ $(function() {
 			<td>
 				<div class = "edit_icons">
 					<input type="image" id="author_edit_btn_{{ author.id }}" src="/static/images/pencil.png" class="author_edit_btn">
-					<!-- <form action="#" method="POST"> -->
 						{{ del_form.csrf_token }}
 						<input type="hidden" name="num" id="num" value="{{ author.id }}">
 						<input type="image" id="author_del_btn_{{ author.id }}" src="/static/images/cancel.png" class="author_del_btn">
-					<!-- </form> -->
 				</div>
 			</td>
 	</table>

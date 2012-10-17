@@ -46,11 +46,9 @@ width:100%;
 }
 .filter{
 	float: right;
-	/*width: 25%;*/
 }
 .add{
 	float: left;
-	/*width: 50%;*/
 
 }
 .books_tab{
@@ -59,8 +57,7 @@ width:100%;
 	font-size:0.9em;
 }
 .books_tab_header{
-/*	float:left;
-*/	line-height:2;
+	line-height:2;
 	height:2em;
 	background:#e8f0f5;
 	border:1px solid #b0d0e9;
@@ -98,8 +95,7 @@ width:100%;
 	opacity: 0;
 }
 .authors_tab_header{
-/*	float:left;
-*/	line-height:2;
+	line-height:2;
 	height:2em;
 	background:#e8f0f5;
 	border:1px solid #b0d0e9;
@@ -129,8 +125,7 @@ width:100%;
 	top: -2px;
 }	
 .book{
-/*	width:95%;
-*/	background-color:#e8f0f5;
+	background-color:#e8f0f5;
 	border-style: solid;
 	border-color: #b0d0e9;
 	border-width: 1px;
@@ -148,19 +143,10 @@ width:100%;
 	-webkit-border-radius:7px;
 	-moz-border-radius:7px;
 	margin:5px 0;
-	/*width: 50%;*/
 	text-align: center;
-/*	float: left;
-	clear: left;
-	position: relative;
-	left: 25%;*/
 }
 .edit_icons{
-/*	float: left;
-	position: relative;
-	left: 25%;
-	top: 10px;
-*/}
+}
 .book_title{
 	font-size:2em;	
 }

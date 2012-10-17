@@ -1,5 +1,4 @@
-﻿#from flask import Flask, render_template
-from flask import *
+﻿from flask import *
 from flask.ext.sqlalchemy import SQLAlchemy
 from flask.ext.wtf import Form, TextField, Required, PasswordField, DecimalField, HiddenField, Length
 from md5 import md5
@@ -25,6 +24,9 @@ class EditForm(Form):
     num = HiddenField('id', validators=[Required()])
     new_value = TextField('new_value', validators=[Required(), Length(min=2, max=30, message='Invalid length (allowed 2-20 symbols)')])
 
+class AddForm(Form):
+    new = TextField('new_value', validators=[Required(), Length(min=2, max=30, message='Invalid length (allowed 2-20 symbols)')])
+
 class BookAuthorForm(Form):
     author_id = HiddenField('author_id', validators=[Required()])
     book_id = HiddenField('book_id', validators=[Required()])
@@ -36,7 +38,7 @@ class Author(db.Model):
     def __init__(self, name):
         self.name = name
     def __repr__(self):
-        return '%r' % self.name
+        return '<Author %r>' % self.name
 
 class Book(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -55,37 +57,25 @@ class User(db.Model):
     password = db.Column(db.String(32))
     admin = db.Column(db.Boolean)
 
-    def __init__(self, username, password, admin = False):
+    def __init__(self, username, password, ifadmin = False):
         self.username = username
         self.password = md5(password).hexdigest()
-        self.admin = admin
+        self.admin = ifadmin
 
     def __repr__(self):
         return '<User %r>' % self.username
 
-#@app.route('/images/<filename>')
-#def images(filename=None):
-#    if filename:
-#        return url_for('static', filename='images/'+filename)
-
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     login_form = LoginForm()
-    # if request.method == 'POST':
-    #     user = User.query.filter_by(username=request.form['username']).first()
-    #     if user and user.password == md5(request.form['password']).hexdigest():
-    #         print request.form['username']
-    #         session['username'] = request.form['username']
     if request.method == 'POST' and login_form.validate():
         user = User.query.filter_by(username=login_form.username.data).first()
         if user and user.password == md5(login_form.password.data).hexdigest():
-            print login_form.username.data
             session['username'] = login_form.username.data
-    print '!!!'
     return redirect(url_for('index'))
 
 def user(_session):
-    if 'username' in session: return session['username']
+    if 'username' in session: return User.query.filter_by(username = session['username']).first()
     else: return None
 
 @app.route('/logout')
@@ -95,20 +85,14 @@ def logout():
 
 @app.route('/')
 def index():
-    # if 'username' in session: user = session['username']
-    # else: user = None
     login_form = LoginForm()
-    print login_form, login_form.username
-    return render_template('hello2.html', user = user(session), form=login_form)
+    return render_template('main.html', user = user(session), form=login_form)
 
 @app.route('/del-author', methods=['GET', 'POST'])
 def del_author():
     del_form = DelForm()
     if request.method == 'POST' and del_form.validate():
-        print del_form.num.data
-        print Author.query.filter_by(id = del_form.num.data).first()
-        db.session.delete(Author.query.filter_by(id = del_form.num.data).first())
-        print '111'
+        db.session.delete(Author.query.get(del_form.num.data))
         db.session.commit()
         return 'True'
     else:
@@ -119,7 +103,6 @@ def edit_author():
     edit_form = EditForm()
     if request.method == 'POST' and edit_form.validate():
         Author.query.filter_by(id = edit_form.num.data).first().name = edit_form.new_value.data
-        print '111'
         db.session.commit()
         return Author.query.filter_by(id = edit_form.num.data).first().name
     else:
@@ -128,12 +111,8 @@ def edit_author():
 @app.route('/del-book', methods=['GET', 'POST'])
 def del_book():
     del_form = DelForm()
-    print del_form
     if request.method == 'POST' and del_form.validate():
-        print del_form.num.data
-        print Book.query.filter_by(id = del_form.num.data).first()
-        db.session.delete(Book.query.filter_by(id = del_form.num.data).first())
-        print '111'
+        db.session.delete(Book.query.get(del_form.num.data))
         db.session.commit()
         return 'True'
     else:
@@ -144,20 +123,54 @@ def edit_book():
     edit_form = EditForm()
     if request.method == 'POST' and edit_form.validate():
         Book.query.filter_by(id = edit_form.num.data).first().name = edit_form.new_value.data
-        print '111'
         db.session.commit()
         return Book.query.filter_by(id = edit_form.num.data).first().name
     else:
         return 'False'
+@app.route('/del-book-author', methods=['GET', 'POST'])
+def del_book_author():
+    form = BookAuthorForm()
+    if request.method == 'POST' and form.validate():
+        book = Book.query.get(form.book_id.data)
+        author = Author.query.get(form.author_id.data)
+        if author in book.authors:
+            del book.authors[book.authors.index(author)]
+        db.session.commit()
+        return render_template('book_authors.html', user = user(session), book = Book.query.get(form.book_id.data))
+    else:
+        return 'False'
 
-@app.route('/add_book_author', methods=['GET', 'POST'])
+@app.route('/add-book', methods=['GET', 'POST'])
+def add_book():
+    form = AddForm()
+    if request.method == 'POST' and form.validate():
+        new_book = Book(form.new.data)
+        db.session.add(new_book)
+        db.session.commit()
+        return 'True'
+    else:
+        return 'False'
+
+@app.route('/add-author', methods=['GET', 'POST'])
+def add_author():
+    form = AddForm()
+    if request.method == 'POST' and form.validate():
+        new_author = Author(form.new.data)
+        db.session.add(new_author)
+        db.session.commit()
+        return 'True'
+    else:
+        return 'False'
+
+@app.route('/add-book-author', methods=['GET', 'POST'])
 def add_book_author():
     form = BookAuthorForm()
     if request.method == 'POST' and form.validate():
-        Book.query.filter_by(id = form.book_id.data).first().authors.append(Author.query.filter_by(id = form.author_id.data).first())
-        print '111'
+        book = Book.query.get(form.book_id.data)
+        add_author = Author.query.get(form.author_id.data)
+        book.authors.append(add_author)
         db.session.commit()
-        return render_template('book_authors.html', user = user(session), authors = Book.query.filter_by(id = form.book_id.data).first().authors)
+        return render_template('book_authors.html', user = user(session), book = Book.query.get(form.book_id.data))
     else:
         return 'False'
 
@@ -166,21 +179,16 @@ def add_book_author():
 def book_filter():
     del_form = DelForm()
     b_filter = request.args.get('bfilter', '')
-    books = [book for book in Book.query.all() if b_filter.lower() in book.name.lower()+str(book.authors).lower()]
-    print 'BOOOOKS',b_filter.lower(),book.name.lower()+str(book.authors).lower(), books
+    books = [book for book in Book.query.order_by(Book.id.desc()).all() if b_filter.lower() in book.name.lower()+str(book.authors).lower()]
     return render_template('books_list.html', books = books, user = user(session), del_form=del_form)
-    # return redirect(url_for('index'))
 
 @app.route('/author-filter')
 def author_filter():
     del_form = DelForm()
     edit_form = EditForm()
     a_filter = request.args.get('afilter', '')
-    authors = [author for author in Author.query.all() if a_filter.lower() in author.name.lower()]
-    print "aaaa", authors
+    authors = [author for author in Author.query.order_by(Author.id.desc()).all() if a_filter.lower() in author.name.lower()]
     return render_template('authors_list.html', authors = authors, user = user(session), del_form=del_form, edit_form=edit_form)
-    # return redirect(url_for('index'))
-
 
 if __name__ == '__main__':
     app.run()

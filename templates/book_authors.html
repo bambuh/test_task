@@ -1,0 +1,25 @@
+{%if user.admin%}
+	<head>
+	<script type="text/javascript">
+	    $('.book_author_del_btn').click(function(){
+	    	num = $(this).parents('.book_authors').attr('id').replace("book_authors_", "");
+	    	$.post('/del-book-author', {
+	    		'csrf_token':$('#csrf_token').attr('value'), 
+	    		'author_id':$(this).attr('id').replace("book_author_del_btn_", ""),
+	    		'book_id': num}, 
+	    		function(html){
+	    			$('#book_authors_'+num).html(html);
+	    		}, 'html');
+	    });
+	</script>
+	</head>
+{%endif%}
+{% for author in book.authors %}
+	<span class="book_author_s" id="author_{{ author.id }}">
+		{{author.name}}
+		{%if user.admin%}
+			<input type="image" id="book_author_del_btn_{{ author.id }}" src="/static/images/cancel.png" class="book_author_del_btn">
+		{%endif%}
+		{% if not loop.last %}, {% endif %}
+	</span>
+{% endfor %}

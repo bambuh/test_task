@@ -1,0 +1,109 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=windows-1251">
+<title>Uaprom Test Task</title>
+<link href="static/style2.css" rel="stylesheet" type="text/css">
+<script type="text/javascript" src="static/jquery.js"></script>
+{% if user.admin %}
+	<script type="text/javascript" src="static/jquery-ui-1.9.0.custom.js"></script>
+{% endif %}
+<script type="text/javascript" src="static/mainjs.js"></script>
+{% if user.admin %}
+	<script type="text/javascript">
+	$(document).ready(function(){ 
+	    $('#book_add').click(function(){
+	    	$.post('/add-book', {
+	    		'csrf_token':$('#csrf_token').attr('value'), 
+	    		'new':$('#book_add_text').attr('value')}, 
+	    		function(text){
+	    			if (text == "True"){
+	    				$('#book_find').trigger('click');
+	    			}
+	    		}, 'text');
+	    });
+	    $('#author_add').click(function(){
+	    	$.post('/add-author', {
+	    		'csrf_token':$('#csrf_token').attr('value'), 
+	    		'new':$('#author_add_text').attr('value')}, 
+	    		function(text){
+	    			if (text == "True"){
+	    				$('#author_find').trigger('click');
+	    			}
+	    		}, 'text');
+	    });
+	});
+	</script>
+{% endif %}
+</head>
+
+<body>
+<div id="container">
+
+<div id="header">
+	<h1>UAPROM Test Task</h1>
+	<div id=logindiv>
+		{% if user %}
+		    Hello, {{user.username}}! <a href="/logout">Logout</a>
+		{% else:%}
+			<form action="/login" method=POST>
+				{{ form.csrf_token }}
+				<label for="username">Login: </label><input type="text" id="username" name="username" class="find">
+				<label for="password">Password: </label><input type="password" id="password" name="password" class="find">
+				<input type="image" id="login" src="/static/images/control_play_blue.png" class='button'>
+			</form>
+		{%endif%}
+	</div>
+</div>
+<br>
+<div class="books_tab">
+	<div class="books_tab_header">
+		Books
+		{% if user.admin %}
+			<div id="edit_mode">
+				<a href="#" id='editmode'>Switch to edit mode</a><a href="#" id='viewmode' style="display:none;">Switch to view mode</a>
+			</div>
+		{% endif %}
+	</div>
+	<div class="books_tab_content">
+	{% if user%}
+		<div class="filter">
+			<input type="text" id="book_find_text" class='find'>
+			<input type="image" id="book_find" src="/static/images/find.png" class='button'>
+		</div>
+		{% if user.admin %}
+			<div class="add" id='book_add_div' style="display:none">
+				<input type="text" id="book_add_text" class='find' style="width: 200px">
+				<input type="image" id="book_add" src="/static/images/add.png" class='button'>
+			</div>
+		{% endif %}
+		<br>
+		<div id="books_list"></div>
+	{% else %}
+	Please login! Guest login: guest password: guest
+	{% endif %}
+	</div>
+</div>
+{% if user.admin %}
+<div class="authors_tab">
+	<div class="authors_tab_header">
+		<b>Authors</b>
+	</div>
+	<div class="authors_tab_content">
+		<div class="filter">
+			<input type="text" id="author_find_text" class='find' style="width: 80px">
+			<input type="image" id="author_find" src="/static/images/find.png" class='button'>
+		</div>
+		<div class="add">
+			<input type="text" id="author_add_text" class='find' style="width: 150px">
+			<input type="image" id="author_add" src="/static/images/add.png" class='button'>
+		</div>
+		<div id="authors_list" style="clear:right"></div>
+	</div>
+</div>
+{% endif %}
+
+</div>
+</body>
+</html>
